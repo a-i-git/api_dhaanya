@@ -23,12 +23,32 @@ def add1():
         # if data is None:
         #     return jsonify({'error': 'Invalid JSON data'}), 400
 
-        model_test = joblib.load('ExtraTrees_LB.joblib')
         values=data['values']
-        print(sklearn.__version__)
         sc=StandardScaler()
         values=sc.fit_transform([values])
-        prediction=model_test.predict(values)
+        if(data['disease']==0):
+            model_test = joblib.load('ExtraTrees_LB.joblib')
+            # print(sklearn.__version__)
+            prediction=model_test.predict(values)
+        elif(data['disease']==1):
+            model_test = joblib.load('ExtraTrees_NB.joblib')
+            # sc=StandardScaler()
+            prediction=model_test.predict(values)
+        elif(data['disease']==2):
+            model_test = joblib.load('LinearReg_GD.joblib')
+            # sc=StandardScaler()
+            prediction=model_test.predict(values)
+        elif(data['disease']==3):
+            model_test = joblib.load('ExtraTrees_SR.joblib')
+            # sc=StandardScaler()
+            prediction=model_test.predict(values)
+        elif(data['disease']==4):
+            model_test = joblib.load('BayesRi_SB.joblib')
+            sc=StandardScaler()
+            prediction=model_test.predict(values)
+        elif(data['disease']==5):
+            model_test = joblib.load('LinearReg_BS.joblib')
+            prediction=model_test.predict(values)
         return jsonify({'message': 'Success', 'received_data': prediction[0]}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
