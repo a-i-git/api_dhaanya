@@ -49,7 +49,8 @@ def add1():
         elif(data['disease']==5):
             model_test = joblib.load('LinearReg_BS.joblib')
             prediction=model_test.predict(values)
-        return jsonify({'message': 'Success', 'received_data': prediction[0]}), 200
+        data['prediction']=prediction[0]
+        return jsonify({'message': 'Success', 'received_data': data}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
